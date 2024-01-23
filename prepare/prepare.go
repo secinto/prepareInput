@@ -75,8 +75,13 @@ func NewPreparer(options *Options) (*Preparer, error) {
 
 func (p *Preparer) Prepare() error {
 	if p.options.Project != "" {
+		if p.options.HostMapping {
+			log.Infof("Create host mapping for project %s", p.options.Project)
+			p.createHostMapping()
+		}
 		if p.options.TLSCheckFull {
 			log.Infof("Preparing input for tls_check for all avaiable ports for project %s", p.options.Project)
+			p.createHostMapping()
 			p.prepareForTestSSL()
 		}
 	} else {
@@ -91,29 +96,31 @@ func (p *Preparer) Prepare() error {
 -------------------------------------------------------------------------------
 */
 
-func (p *Preparer) prepareForTestSSL() []Host {
-
+func (p *Preparer) createHostMapping() {
 	dnsToIPInfo := GetDocumentFromFile(p.options.BaseFolder + "recon/" + appConfig.HostMapping)
 	ipToPortInfo := GetDocumentFromFile(p.options.BaseFolder + "recon/" + appConfig.PortsSinple)
 	cleanedIPs := GetValuesForKey(ipToPortInfo, "ip")
-	var preparedHosts []Host
+
 	for _, ip := range cleanedIPs {
 		hostnames := GetValueForQueryKey(dnsToIPInfo, "host", "ip", []string{ip})
 		ports := GetValueForQueryKey(ipToPortInfo, "port", "ip", []string{ip})
-		preparedHosts = append(preparedHosts, Host{
+		p.preparedHosts = append(p.preparedHosts, Host{
 			IPv4:      ip,
 			Hostnames: hostnames,
 			Ports:     ports,
 		})
 	}
-	data, _ := json.MarshalIndent(preparedHosts, "", " ")
+	data, _ := json.MarshalIndent(p.preparedHosts, "", " ")
 	hostMappingFile := p.options.BaseFolder + "findings/hostMapping.json"
 	WriteToTextFileInProject(hostMappingFile, string(data))
-	log.Infof("Processed %d host entries and their associated names and ports, created host mapping file %s", len(preparedHosts), hostMappingFile)
+	log.Infof("Processed %d host entries and their associated names and ports, created host mapping file %s", len(p.preparedHosts), hostMappingFile)
+}
+
+func (p *Preparer) prepareForTestSSL() {
 
 	var tlsCheckEntries []string
 
-	for _, host := range preparedHosts {
+	for _, host := range p.preparedHosts {
 		for _, port := range host.Ports {
 			if value, ok := startTLSPorts[port]; ok {
 				log.Debugf("Port %s will be used for tls_check with StartTLS", port)
@@ -132,5 +139,4 @@ func (p *Preparer) prepareForTestSSL() []Host {
 	log.Infof("Created %d entries for additional TLS check file %s", len(tlsCheckEntries), additionalTLSCheckFile)
 
 	log.Info("Finished")
-	return preparedHosts
 }

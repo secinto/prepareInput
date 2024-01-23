@@ -50,16 +50,14 @@ Usage:
 Flags:
 INPUT:
    -p, -project string  project name for metadata addition
-   -email               identify Email security (MX, TXT, ...) for the specified project
-   -dns                 identify DNS resolutions for the specified project
-   -ports               identify open ports for the specified project
-   -all                 perform all checks
+   -t, -tls_check_full  create output for performing tls_check over multiple ports
 
 CONFIG:
-   -config string  settings (Yaml) file location (default "/home/samareina/.config/simpleFinder/settings.yaml")
+   -config string  settings (Yaml) file location (default "/home/samareina/.config/prepareInput/settings.yaml")
 
 DEBUG:
    -silent         show only results in output
    -version        show version of the project
    -v              show verbose output
    -nc, -no-color  disable colors in output
+

@@ -1,0 +1,6 @@
+*.csv
+dist/
+.idea
+logs/
+prepareInput
+!prepareInput.go

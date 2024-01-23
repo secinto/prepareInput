@@ -15,7 +15,8 @@ type Project struct {
 }
 
 type Preparer struct {
-	options *Options
+	options       *Options
+	preparedHosts []Host
 }
 
 type Host struct {

@@ -18,6 +18,7 @@ type Options struct {
 	SettingsFile string
 	Project      string
 	BaseFolder   string
+	HostMapping  bool
 	TLSCheckFull bool
 	Silent       bool
 	Version      bool
@@ -30,10 +31,11 @@ func ParseOptions() *Options {
 	options := &Options{}
 	var err error
 	flagSet := goflags.NewFlagSet()
-	flagSet.SetDescription(fmt.Sprintf("simpleFinder %s - Get findings from input files for a specific project", VERSION))
+	flagSet.SetDescription(fmt.Sprintf("prepareInput %s - Generates from existing data input data for further tool chain steps", VERSION))
 
 	flagSet.CreateGroup("input", "Input",
 		flagSet.StringVarP(&options.Project, "project", "p", "", "project name for metadata addition"),
+		flagSet.BoolVarP(&options.HostMapping, "hostMapping", "hm", false, "creates a host mapping file based on the IP containing all associated host names and found services"),
 		flagSet.BoolVarP(&options.TLSCheckFull, "tls_check_full", "t", false, "create output for performing tls_check over multiple ports"),
 	)
 
