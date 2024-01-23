@@ -50,6 +50,7 @@ Usage:
 Flags:
 INPUT:
    -p, -project string  project name for metadata addition
+   -hm, -hostMapping    creates a host mapping file based on the IP containing all associated host names and found services
    -t, -tls_check_full  create output for performing tls_check over multiple ports
 
 CONFIG:
@@ -60,4 +61,5 @@ DEBUG:
    -version        show version of the project
    -v              show verbose output
    -nc, -no-color  disable colors in output
+
 
