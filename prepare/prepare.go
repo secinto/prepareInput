@@ -61,7 +61,7 @@ func loadConfigFrom(location string) Config {
 		config = Config{
 			S2SPath:     "S://",
 			HostMapping: "dpux_host_to_ip.json",
-			PortsSinple: "unique_open_ports.json",
+			PortsSimple: "unique_open_ports.json",
 		}
 	}
 	return config
@@ -98,8 +98,9 @@ func (p *Preparer) Prepare() error {
 
 func (p *Preparer) createHostMapping() {
 	dnsToIPInfo := GetDocumentFromFile(p.options.BaseFolder + "recon/" + appConfig.HostMapping)
-	ipToPortInfo := GetDocumentFromFile(p.options.BaseFolder + "recon/" + appConfig.PortsSinple)
-	cleanedIPs := GetValuesForKey(ipToPortInfo, "ip")
+	ipToPortInfo := GetDocumentFromFile(p.options.BaseFolder + "recon/" + appConfig.PortsSimple)
+
+	cleanedIPs := GetValuesForKey(dnsToIPInfo, "ip")
 
 	for _, ip := range cleanedIPs {
 		hostnames := GetValueForQueryKey(dnsToIPInfo, "host", "ip", []string{ip})

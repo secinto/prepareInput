@@ -7,7 +7,7 @@ const VERSION = "0.1.0"
 type Config struct {
 	S2SPath     string `yaml:"s2s_path"`
 	HostMapping string `yaml:"host_mapping,omitempty"`
-	PortsSinple string `yaml:"ports_simple,omitempty"`
+	PortsSimple string `yaml:"ports_simple,omitempty"`
 }
 
 type Project struct {
