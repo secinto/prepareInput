@@ -24,10 +24,10 @@ var (
 */
 func (p *Preparer) initialize(configLocation string) {
 	appConfig = loadConfigFrom(configLocation)
-	if !strings.HasSuffix(appConfig.S2SPath, "/") {
-		appConfig.S2SPath = appConfig.S2SPath + "/"
+	if !strings.HasSuffix(appConfig.ProjectsPath, "/") {
+		appConfig.ProjectsPath = appConfig.ProjectsPath + "/"
 	}
-	p.options.BaseFolder = appConfig.S2SPath + p.options.Project
+	p.options.BaseFolder = appConfig.ProjectsPath + p.options.Project
 	if !strings.HasSuffix(p.options.BaseFolder, "/") {
 		p.options.BaseFolder = p.options.BaseFolder + "/"
 	}
@@ -59,9 +59,9 @@ func loadConfigFrom(location string) Config {
 
 	if &config == nil {
 		config = Config{
-			S2SPath:     "S://",
-			HostMapping: "dpux_host_to_ip.json",
-			PortsSimple: "unique_open_ports.json",
+			ProjectsPath: "/checkfix/projects",
+			HostMapping:  "dpux_host_to_ip.json",
+			PortsSimple:  "unique_open_ports.json",
 		}
 	}
 	return config

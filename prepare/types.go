@@ -1,13 +1,13 @@
 package prepare
 
-const VERSION = "0.1.0"
+const VERSION = "0.2.1"
 
 //const VERSION = "0.1.0" //Initial version
 
 type Config struct {
-	S2SPath     string `yaml:"s2s_path"`
-	HostMapping string `yaml:"host_mapping,omitempty"`
-	PortsSimple string `yaml:"ports_simple,omitempty"`
+	ProjectsPath string `yaml:"projects_path"`
+	HostMapping  string `yaml:"host_mapping,omitempty"`
+	PortsSimple  string `yaml:"ports_simple,omitempty"`
 }
 
 type Project struct {
