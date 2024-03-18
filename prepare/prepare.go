@@ -136,7 +136,7 @@ func (p *Preparer) prepareForTestSSL() {
 		}
 	}
 	additionalTLSCheckFile := p.options.BaseFolder + "recon/tls_check_additional.txt"
-	WriteToTextFileInProject(additionalTLSCheckFile, strings.Join(tlsCheckEntries[:], "\n"))
+	WriteToTextFileInProject(additionalTLSCheckFile, strings.Join(tlsCheckEntries[:], "\n")+"\n")
 	log.Infof("Created %d entries for additional TLS check file %s", len(tlsCheckEntries), additionalTLSCheckFile)
 
 	log.Info("Finished")
