@@ -2,17 +2,22 @@ package prepare
 
 import (
 	"github.com/antchfx/jsonquery"
+	"io"
 	"os"
 	"strings"
 )
 
-func GetDocumentFromFile(filename string) *jsonquery.Node {
+func GetDocumentFromFile(filename string, isInJSONLFormat bool) *jsonquery.Node {
 	data, err := os.ReadFile(filename)
 	if err != nil {
 		log.Fatalf("Reading JSON input file failed: %s %s", err.Error(), filename)
 	}
-	jsonlString := ConvertJSONLtoJSON(string(data))
-	jsonReader := strings.NewReader(jsonlString)
+	var jsonReader io.Reader
+	if isInJSONLFormat {
+		jsonReader = strings.NewReader(ConvertJSONLtoJSON(string(data)))
+	} else {
+		jsonReader = strings.NewReader(string(data))
+	}
 	input, err := jsonquery.Parse(jsonReader)
 	if err != nil {
 		log.Fatalf("Reading JSON input file failed: %s %s", err.Error(), filename)

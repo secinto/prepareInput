@@ -61,7 +61,7 @@ func loadConfigFrom(location string) Config {
 		config = Config{
 			ProjectsPath: "/checkfix/projects",
 			HostMapping:  "dpux_host_to_ip.json",
-			PortsSimple:  "unique_open_ports.json",
+			ServicesFile: "services.json",
 		}
 	}
 	return config
@@ -97,8 +97,8 @@ func (p *Preparer) Prepare() error {
 */
 
 func (p *Preparer) createHostMapping() {
-	dnsToIPInfo := GetDocumentFromFile(p.options.BaseFolder + "recon/" + appConfig.HostMapping)
-	ipToPortInfo := GetDocumentFromFile(p.options.BaseFolder + "recon/" + appConfig.PortsSimple)
+	dnsToIPInfo := GetDocumentFromFile(p.options.BaseFolder+"recon/"+appConfig.HostMapping, true)
+	ipToPortInfo := GetDocumentFromFile(p.options.BaseFolder+"findings/"+appConfig.ServicesFile, false)
 
 	cleanedIPs := GetValuesForKey(dnsToIPInfo, "ip")
 
